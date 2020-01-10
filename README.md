@@ -9,7 +9,7 @@ Then instead of cloning A-LOAM do the following:
 cd ~/catkin_ws/src
 git clone https://github.com/nikwitting/actuated-lidar-undistortion
 cd ../
-catkin_make
+catkin_make -DCMAKE_BUILD_TYPE=Release
 source ~/catkin_ws/devel/setup.bash
 ```
 
