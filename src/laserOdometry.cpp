@@ -386,12 +386,13 @@ void ekfposehandler(const nav_msgs::Odometry::ConstPtr & ekfPose)
 double oldt =0;
 double angle =0;
 Eigen::Quaterniond qo_f2=Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd(0.78539816339, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd(-1.57079632679, Eigen::Vector3d::UnitZ());
-
+double imucounter=0;
 void imuposehandler(const sensor_msgs::Imu::ConstPtr & msg)
 {       
-
-			
-
+			double imudownsamplefactor =1;
+			imucounter++;
+			if( imucounter==imudownsamplefactor){
+			imucounter=0;
             double t=msg->header.stamp.sec + 0.000000001*msg->header.stamp.nsec;
             
             if (oldt==0){
@@ -421,6 +422,8 @@ void imuposehandler(const sensor_msgs::Imu::ConstPtr & msg)
             mBuf.lock();
 			ekfposelog.push_back(odomAftMapped);
 			mBuf.unlock();
+		}
+
 }
 /*
 void realekfposehandler(const nav_msgs::Odometry::ConstPtr & ekfPose)
